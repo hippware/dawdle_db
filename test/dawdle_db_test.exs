@@ -1,83 +1,67 @@
 defmodule DawdleDBTest do
-  use DawdleDB.TestCase, repo: DawdleDB.Test.Repo
+  use DawdleDB.TestCase, repo: DawdleDB.Repo
 
   alias Faker.Lorem
-  alias DawdleDB.Client
-  alias DawdleDB.Event
+  alias Dawdle.MessageEncoder.Term
   alias DawdleDB.Factory
-  alias DawdleDB.Test.User
+  alias DawdleDB.Data
 
-  setup do
-    Client.clear_all_subscriptions()
+  defmodule TestHandler do
+    use DawdleDB.Handler, type: DawdleDB.Data
+
+    def handle_insert(%Data{pid: spid} = new) do
+      pid = Term.decode(spid)
+      send(pid, {:insert, new})
+    end
+
+    def handle_update(%Data{pid: spid} = new, old) do
+      pid = Term.decode(spid)
+      send(pid, {:update, new, old})
+    end
+
+    def handle_delete(%Data{pid: spid} = old) do
+      pid = Term.decode(spid)
+      send(pid, {:delete, old})
+    end
+  end
+
+  setup_all do
+    TestHandler.register()
   end
 
   test "generates insert event" do
     pid = self()
 
-    Client.subscribe(User, :insert, fn event -> send(pid, event) end)
+    %{id: id} = Factory.insert(:data, pid: Term.encode(pid))
 
-    %{id: uid} = Factory.insert(:user)
-
-    assert_receive %Event{action: :insert, old: nil, new: %User{id: ^uid}}, 500
+    assert_receive {:insert, %Data{id: ^id}}, 500
   end
 
   test "generates update event" do
     pid = self()
 
-    Client.subscribe(User, :update, fn event -> send(pid, event) end)
+    data = %{id: id} = Factory.insert(:data, pid: Term.encode(pid))
 
-    user = %{id: uid} = Factory.insert(:user)
-
-    user
-    |> cast(%{name: Lorem.sentence()}, [:name])
+    data
+    |> Data.changeset(%{text: Lorem.sentence()})
     |> Repo.update()
 
-    assert_receive %Event{
-                     action: :update,
-                     old: %User{id: ^uid, name: name},
-                     new: %User{id: ^uid, name: name2}
+    assert_receive {
+                     :update,
+                     %Data{id: ^id, text: text},
+                     %Data{id: ^id, text: text2}
                    }
-                   when name != name2,
+                   when text != text2,
                    500
   end
 
   test "generates delete event" do
     pid = self()
 
-    Client.subscribe(User, :delete, fn event -> send(pid, event) end)
+    data = %{id: id} = Factory.insert(:data, pid: Term.encode(pid))
 
-    user = %{id: uid} = Factory.insert(:user)
-    Repo.delete(user)
+    Repo.delete(data)
 
-    assert_receive %Event{action: :delete, new: nil, old: %User{id: ^uid}}, 500
-  end
-
-  test "unsubscribe" do
-    pid = self()
-
-    {:ok, ref} =
-      Client.subscribe(User, :insert, fn event -> send(pid, event) end)
-
-    Client.unsubscribe(ref)
-
-    Factory.insert(:user)
-
-    refute_receive _, 200
-  end
-
-  test "crash handler" do
-    client = Process.whereis(Client)
-    {:ok, _ref} = Client.subscribe(User, :insert, &crash(&1))
-
-    Factory.insert(:user)
-
-    Process.sleep(500)
-    client2 = Process.whereis(Client)
-    assert client == client2
-    assert Process.alive?(client)
-  end
-
-  defp crash(_event) do
-    :lists.last([])
+    assert_receive {:delete, %Data{id: ^id}}, 500
   end
 end

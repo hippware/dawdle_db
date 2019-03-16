@@ -1,4 +1,4 @@
-defmodule DawdleDB.Test.Repo do
+defmodule DawdleDB.Repo do
   use Ecto.Repo,
     otp_app: :dawdle_db,
     adapter: Ecto.Adapters.Postgres

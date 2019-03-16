@@ -8,14 +8,19 @@ defmodule DawdleDB.MixProject do
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
   def application do
     [
       extra_applications: [:logger],
-      mod: {DawdleDB.Application, []},
       env: [
         channel: {:system, "DAWDLEDB_CHANNEL", "dawdle_db_watcher_notify"},
         batch_timeout: 50,
@@ -44,10 +49,12 @@ defmodule DawdleDB.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_sqs, "~> 2.0"},
-      {:timex, "~> 3.5"},
       {:poison, "~> 3.0 or ~> 4.0"},
       {:postgrex, "~> 0.14.0"},
+      {:timex, "~> 3.5"},
       {:dialyxir, "~> 0.5", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:excoveralls, "~> 0.10", only: :test},
       {:ex_machina, "~> 2.3", only: :test},
       {:faker, "~> 0.12", only: :test}
     ]

@@ -18,7 +18,7 @@ defmodule DawdleDB.TestCase do
       alias unquote(opts[:repo])
 
       setup_all do
-        DawdleDB.Client.clear_all_subscriptions()
+        Dawdle.Client.clear_all_handlers()
         SQLSandbox.mode(unquote(opts[:repo]), :auto)
 
         # Give any DB notifications still in the system from previous tests

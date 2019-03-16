@@ -15,6 +15,10 @@ defmodule DawdleDB.Migration do
     end
   end
 
+  def drop_watcher_events_table do
+    drop table("watcher_events")
+  end
+
   # Add function/trigger for DB notifications. @see WockyDBWatcher.Watcher
   # To override the encoding of particular fields, provide an override with
   # $ITEM$ as the item to be overridden. For example, to override the encoding

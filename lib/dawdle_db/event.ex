@@ -10,5 +10,6 @@ defmodule DawdleDB.Event do
     :new
   ]
 
+  @type action :: :insert | :update | :delete
   @type t :: %__MODULE__{}
 end

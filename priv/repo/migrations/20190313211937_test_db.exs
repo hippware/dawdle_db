@@ -6,18 +6,18 @@ defmodule DawdleDB.Repo.Migrations.TestDb do
   def up do
     create_watcher_events_table()
 
-    create table(:users) do
-      add :name, :string, null: false
-      add :email, :string
+    create table(:data) do
+      add :pid, :string
+      add :text, :text
 
       timestamps()
     end
 
-    update_notify("users", [:insert, :update, :delete])
+    update_notify("data", [:insert, :update, :delete])
   end
 
   def down do
-    drop table("watcher_events")
-    drop table(:users)
+    drop table(:data)
+    drop_watcher_events_table()
   end
 end
