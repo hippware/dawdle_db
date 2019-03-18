@@ -26,18 +26,8 @@ defmodule DawdleDB.TestCase do
 
         DawdleDB.Watcher.Supervisor.start_link()
 
-        # Because we can't use the Sandbox in its :manual mode (because it doesn't
-        # cause the NOTIFY actions in the DB to fire) we have to do our own cleanup
-        on_exit(fn ->
-          cleanup()
-        end)
-      end
-
-      def cleanup do
         :ok
       end
-
-      defoverridable cleanup: 0
     end
   end
 end
