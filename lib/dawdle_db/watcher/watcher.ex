@@ -103,10 +103,9 @@ defmodule DawdleDB.Watcher do
   end
 
   defp flush(%State{pending: pending} = state) do
-    # FIXME implement batch signaling in Dawdle
     pending
     |> Enum.reverse()
-    |> Enum.each(&Dawdle.signal/1)
+    |> Dawdle.signal()
 
     {:noreply, %{state | pending: []}}
   end
