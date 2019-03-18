@@ -12,7 +12,6 @@ defmodule DawdleDB.TestCase do
       import Ecto.Query
 
       import unquote(__MODULE__)
-      import DawdleDB.Eventually
 
       alias Ecto.Adapters.SQL.Sandbox, as: SQLSandbox
       alias unquote(opts[:repo])
