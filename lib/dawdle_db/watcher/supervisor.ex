@@ -4,13 +4,17 @@ defmodule DawdleDB.Watcher.Supervisor do
   """
   use Supervisor
 
-  def start_link(arg \\ []) do
-    Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
+  def start_link(config \\ []) do
+    Supervisor.start_link(__MODULE__, config, name: __MODULE__)
   end
 
   @impl true
-  def init(_init_arg) do
-    config = Confex.fetch_env!(:dawdle_db, :db)
+  def init(config) do
+    config =
+      :dawdle_db
+      |> Confex.get_env(:db, [])
+      |> Keyword.merge(config)
+      |> Keyword.take([:hostname, :database, :username, :password, :port, :pool_size])
 
     # List all child processes to be supervised
     children = [

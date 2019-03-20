@@ -1,10 +1,13 @@
 defmodule DawdleDBTest do
-  use DawdleDB.TestCase, repo: DawdleDB.Repo
+  use ExUnit.Case, async: false
+
+  import DawdleDB.TestHelper
 
   alias Faker.Lorem
   alias Dawdle.MessageEncoder.Term
   alias DawdleDB.Factory
   alias DawdleDB.Data
+  alias DawdleDB.Repo
 
   defmodule TestHandler do
     use DawdleDB.Handler, type: DawdleDB.Data
@@ -27,6 +30,9 @@ defmodule DawdleDBTest do
 
   setup_all do
     TestHandler.register()
+    start_watcher(DawdleDB.Repo)
+
+    :ok
   end
 
   test "generates insert event" do

@@ -10,8 +10,5 @@ if Mix.env() == :test do
     hostname: "localhost",
     pool: Ecto.Adapters.SQL.Sandbox
 
-  config :dawdle_db, :db,
-    database: "dawdle_db_test"
-
   config :logger, level: :info
 end
