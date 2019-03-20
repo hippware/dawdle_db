@@ -17,14 +17,13 @@ defmodule DawdleDB.TestCase do
       alias unquote(opts[:repo])
 
       setup_all do
-        Dawdle.Client.clear_all_handlers()
         SQLSandbox.mode(unquote(opts[:repo]), :auto)
 
         # Give any DB notifications still in the system from previous tests
         # a grace period to finish up before we start the watcher
         Process.sleep(500)
 
-        DawdleDB.Watcher.Supervisor.start_link()
+        start_supervised!(DawdleDB.Watcher.Supervisor)
 
         :ok
       end

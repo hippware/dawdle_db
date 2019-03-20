@@ -30,7 +30,8 @@ defmodule DawdleDB.MixProject do
           username: {:system, "DAWDLEDB_DB_USERNAME", "postgres"},
           password: {:system, "DAWDLEDB_DB_PASSWORD", "password"},
           hostname: {:system, "DAWDLEDB_DB_HOSTNAME", "localhost"},
-          port: {:system, :integer, "DAWDLEDB_DB_PORT", 5432}
+          port: {:system, :integer, "DAWDLEDB_DB_PORT", 5432},
+          pool_size: {:system, :integer, "DAWDLEDB_DB_POOL_SIZE", 10}
         ]
       ]
     ]
