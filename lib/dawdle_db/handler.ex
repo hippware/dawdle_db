@@ -70,6 +70,7 @@ defmodule DawdleDB.Handler do
   @doc false
   def _expand_alias({:__aliases__, _, _} = ast, env),
     do: Macro.expand(ast, %{env | function: {:__schema__, 2}})
+
   def _expand_alias(ast, _env),
     do: ast
 end

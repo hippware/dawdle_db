@@ -5,6 +5,8 @@ defmodule DawdleDB.Migration do
 
   import Ecto.Migration
 
+  alias DawdleDB.Event
+
   @type override :: {binary, binary}
 
   def create_watcher_events_table do
@@ -67,7 +69,7 @@ defmodule DawdleDB.Migration do
   end
 
   defp channel do
-    Application.load(:dawdle_db)
+    :ok = Application.load(:dawdle_db)
     Confex.fetch_env!(:dawdle_db, :channel)
   end
 
@@ -117,7 +119,7 @@ defmodule DawdleDB.Migration do
   end
 
   ### Remove function/trigger
-  @spec remove_notify(binary, DawdleDB.action()) :: term
+  @spec remove_notify(binary, Event.action() | [Event.action()]) :: term
   def remove_notify(table, actions) when is_list(actions),
     do: Enum.each(actions, &remove_notify(table, &1))
 

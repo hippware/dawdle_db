@@ -21,8 +21,8 @@ defmodule DawdleDB.Watcher do
 
   require Logger
 
-  alias Postgrex.Notifications
   alias DawdleDB.Event
+  alias Postgrex.Notifications
 
   @doc false
   def start_link(init_arg) do
@@ -103,9 +103,10 @@ defmodule DawdleDB.Watcher do
   end
 
   defp flush(%State{pending: pending} = state) do
-    pending
-    |> Enum.reverse()
-    |> Dawdle.signal()
+    :ok =
+      pending
+      |> Enum.reverse()
+      |> Dawdle.signal()
 
     {:noreply, %{state | pending: []}}
   end

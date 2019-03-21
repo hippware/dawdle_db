@@ -7,13 +7,38 @@ defmodule DawdleDB.MixProject do
       version: "0.5.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      elixirc_paths: elixirc_paths(Mix.env),
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.html": :test
+      ],
+      dialyzer: [
+        flags: [
+          :error_handling,
+          :no_behaviours,
+          :no_contracts,
+          :no_fail_call,
+          :no_fun_app,
+          :no_improper_lists,
+          :no_match,
+          :no_missing_calls,
+          :no_opaque,
+          :no_return,
+          :no_undefined_callbacks,
+          :no_unused,
+          :race_conditions,
+          :underspecs,
+          :unknown,
+          :unmatched_returns,
+          :overspecs,
+          :specdiffs
+        ],
+        plt_add_apps: [:ex_unit],
+        ignore_warnings: "dialyzer_ignore.exs",
+        list_unused_filters: true
       ]
     ]
   end
@@ -45,7 +70,9 @@ defmodule DawdleDB.MixProject do
   defp deps do
     [
       {:confex, "~> 3.4"},
+      {:credo, "~> 1.0", only: [:dev], runtime: false},
       {:dawdle, github: "hippware/dawdle", branch: "dev-0.5.0"},
+      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:ecto, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
       {:ex_aws, "~> 2.0"},
@@ -53,7 +80,6 @@ defmodule DawdleDB.MixProject do
       {:poison, "~> 3.0 or ~> 4.0"},
       {:postgrex, "~> 0.14.0"},
       {:timex, "~> 3.5"},
-      {:dialyxir, "~> 0.5", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_machina, "~> 2.3", only: :test},

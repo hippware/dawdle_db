@@ -3,11 +3,11 @@ defmodule DawdleDBTest do
 
   import DawdleDB.TestHelper
 
-  alias Faker.Lorem
   alias Dawdle.MessageEncoder.Term
-  alias DawdleDB.Factory
   alias DawdleDB.Data
+  alias DawdleDB.Factory
   alias DawdleDB.Repo
+  alias Faker.Lorem
 
   defmodule TestHandler do
     use DawdleDB.Handler, type: DawdleDB.Data
