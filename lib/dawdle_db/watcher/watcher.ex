@@ -25,6 +25,7 @@ defmodule DawdleDB.Watcher do
   alias Postgrex.Notifications
 
   @doc false
+  @spec start_link(any()) :: GenServer.on_start()
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
@@ -66,7 +67,7 @@ defmodule DawdleDB.Watcher do
 
       %Event{
         table: full_event.table,
-        action: String.to_atom(full_event.action)
+        action: String.to_existing_atom(full_event.action)
       }
       |> maybe_add_rec(:old, full_event)
       |> maybe_add_rec(:new, full_event)

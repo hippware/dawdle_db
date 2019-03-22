@@ -7,6 +7,7 @@ defmodule DawdleDB.TestHelper do
 
   alias Ecto.Adapters.SQL.Sandbox, as: SQLSandbox
 
+  @spec start_watcher(Ecto.Repo.t()) :: pid()
   def start_watcher(repo) do
     SQLSandbox.mode(repo, :auto)
 

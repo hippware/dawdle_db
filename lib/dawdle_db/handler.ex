@@ -25,7 +25,7 @@ defmodule DawdleDB.Handler do
 
       @behaviour DawdleDB.Handler
 
-      @impl Dawdle.Handler
+      @impl true
       def handle_event(%DawdleDB.Event{table: unquote(table)} = e) do
         case e.action do
           :insert ->
@@ -45,13 +45,13 @@ defmodule DawdleDB.Handler do
       # Catch-all handler
       def handle_event(_event), do: :ok
 
-      @impl DawdleDB.Handler
+      @impl true
       def handle_insert(_new), do: :ok
 
-      @impl DawdleDB.Handler
+      @impl true
       def handle_update(_new, _old), do: :ok
 
-      @impl DawdleDB.Handler
+      @impl true
       def handle_delete(_old), do: :ok
 
       defoverridable handle_insert: 1, handle_update: 2, handle_delete: 1
@@ -59,6 +59,7 @@ defmodule DawdleDB.Handler do
   end
 
   @doc false
+  @spec _rehydrate(struct(), nil | map()) :: nil | struct()
   def _rehydrate(_type, nil), do: nil
 
   def _rehydrate(type, data) do
@@ -68,6 +69,7 @@ defmodule DawdleDB.Handler do
   end
 
   @doc false
+  # credo:disable-for-lines:5 Credo.Check.Readability.Specs
   def _expand_alias({:__aliases__, _, _} = ast, env),
     do: Macro.expand(ast, %{env | function: {:__schema__, 2}})
 

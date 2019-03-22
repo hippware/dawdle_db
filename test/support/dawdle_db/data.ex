@@ -1,3 +1,4 @@
+# credo:disable-for-this-file Credo.Check.Readability.Specs
 defmodule DawdleDB.Data do
   @moduledoc false
 

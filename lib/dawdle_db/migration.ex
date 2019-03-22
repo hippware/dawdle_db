@@ -7,18 +7,25 @@ defmodule DawdleDB.Migration do
 
   alias DawdleDB.Event
 
+  @type table :: binary
   @type override :: {binary, binary}
 
+  @spec create_watcher_events_table :: :ok
   def create_watcher_events_table do
     create table("watcher_events") do
       add :payload, :text, null: false
 
       timestamps(inserted_at: :created_at, updated_at: false)
     end
+
+    :ok
   end
 
+  @spec drop_watcher_events_table :: :ok
   def drop_watcher_events_table do
     drop table("watcher_events")
+
+    :ok
   end
 
   # Add function/trigger for DB notifications. @see WockyDBWatcher.Watcher
@@ -26,6 +33,7 @@ defmodule DawdleDB.Migration do
   # $ITEM$ as the item to be overridden. For example, to override the encoding
   # of the "title" field, use:
   # {"title", "my_encoding_function($ITEM$)"}
+  @spec update_notify(table(), [Event.action()], [override()]) :: :ok
   def update_notify(table, actions, overrides \\ [])
 
   def update_notify(table, actions, overrides) when is_list(actions) do
@@ -66,6 +74,8 @@ defmodule DawdleDB.Migration do
 
     execute("DROP TRIGGER IF EXISTS #{name(table, action)} ON #{table}")
     add_notify_trigger(table, action)
+
+    :ok
   end
 
   defp channel do
@@ -119,7 +129,7 @@ defmodule DawdleDB.Migration do
   end
 
   ### Remove function/trigger
-  @spec remove_notify(binary, Event.action() | [Event.action()]) :: term
+  @spec remove_notify(table(), Event.action() | [Event.action()]) :: :ok
   def remove_notify(table, actions) when is_list(actions),
     do: Enum.each(actions, &remove_notify(table, &1))
 
@@ -127,6 +137,8 @@ defmodule DawdleDB.Migration do
     action = Atom.to_string(action_atom)
     execute("DROP TRIGGER IF EXISTS #{name(table, action)} ON #{table}")
     execute("DROP FUNCTION IF EXISTS #{name(table, action)}()")
+
+    :ok
   end
 
   defp name(table, action), do: "notify_#{table}_#{action}"

@@ -65,13 +65,13 @@
         # Priority values are: `low, normal, high, higher`
         #
         {Credo.Check.Design.AliasUsage,
-         [priority: :low, if_nested_deeper_than: 2, if_called_more_often_than: 0]},
+         [priority: :low, if_nested_deeper_than: 2, if_called_more_often_than: 1]},
         # You can also customize the exit_status of each check.
         # If you don't want TODO comments to cause `mix credo` to fail, just
         # set this value to 0 (zero).
         #
-        {Credo.Check.Design.TagTODO, [exit_status: 2]},
-        {Credo.Check.Design.TagFIXME, []},
+        {Credo.Check.Design.TagTODO, [exit_status: 0]},
+        {Credo.Check.Design.TagFIXME, [exit_status: 0]},
 
         #
         ## Readability Checks
@@ -87,7 +87,7 @@
         {Credo.Check.Readability.ParenthesesOnZeroArityDefs, []},
         {Credo.Check.Readability.PredicateFunctionNames, []},
         {Credo.Check.Readability.PreferImplicitTry, []},
-        {Credo.Check.Readability.RedundantBlankLines, []},
+        {Credo.Check.Readability.RedundantBlankLines, [max_blank_lines: 2]},
         {Credo.Check.Readability.Semicolons, []},
         {Credo.Check.Readability.SpaceAfterCommas, []},
         {Credo.Check.Readability.StringSigils, []},
@@ -112,7 +112,7 @@
         {Credo.Check.Refactor.PipeChainStart,
          [
            excluded_argument_types: [:atom, :binary, :fn, :keyword, :number],
-           excluded_functions: []
+           excluded_functions: ["from"]
          ]},
         {Credo.Check.Refactor.UnlessWithElse, []},
 
@@ -139,16 +139,16 @@
         #
         # Controversial and experimental checks (opt-in, just replace `false` with `[]`)
         #
-        {Credo.Check.Consistency.MultiAliasImportRequireUse, false},
-        {Credo.Check.Design.DuplicatedCode, false},
-        {Credo.Check.Readability.Specs, false},
-        {Credo.Check.Refactor.ABCSize, false},
-        {Credo.Check.Refactor.AppendSingleItem, false},
-        {Credo.Check.Refactor.DoubleBooleanNegation, false},
-        {Credo.Check.Refactor.ModuleDependencies, false},
-        {Credo.Check.Refactor.VariableRebinding, false},
-        {Credo.Check.Warning.MapGetUnsafePass, false},
-        {Credo.Check.Warning.UnsafeToAtom, false}
+        {Credo.Check.Consistency.MultiAliasImportRequireUse, []},
+        {Credo.Check.Design.DuplicatedCode, []},
+        {Credo.Check.Readability.Specs, []},
+        {Credo.Check.Refactor.ABCSize, []},
+        {Credo.Check.Refactor.AppendSingleItem, []},
+        {Credo.Check.Refactor.DoubleBooleanNegation, []},
+        {Credo.Check.Refactor.ModuleDependencies, [max_deps: 12]},
+        {Credo.Check.Refactor.VariableRebinding, []},
+        {Credo.Check.Warning.MapGetUnsafePass, []},
+        {Credo.Check.Warning.UnsafeToAtom, []}
 
         #
         # Custom checks can be created using `mix credo.gen.check`.
