@@ -6,7 +6,7 @@
   "confex": {:hex, :confex, "3.4.0", "8b1c3cc7a93320291abb31223a178df19d7f722ee816c05a8070c8c9a054560d", [:mix], [], "hexpm"},
   "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], [], "hexpm"},
   "credo": {:hex, :credo, "1.0.3", "5278e8953f379b41ebe27c75c96d2e154ebc3f75dfe057c8b68c39133c25bb9f", [:mix], [{:bunt, "~> 0.2.0", [hex: :bunt, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
-  "dawdle": {:git, "https://github.com/hippware/dawdle.git", "079869a34b124627a65b2cff4f15ead4ec28f965", [branch: "dev-0.5.0"]},
+  "dawdle": {:git, "https://github.com/hippware/dawdle.git", "329f022ed98b1974dfa5cc0e66e659f3a46b58ff", [branch: "dev-0.5.0"]},
   "db_connection": {:hex, :db_connection, "2.0.5", "ddb2ba6761a08b2bb9ca0e7d260e8f4dd39067426d835c24491a321b7f92a4da", [:mix], [{:connection, "~> 1.0.2", [hex: :connection, repo: "hexpm", optional: false]}], "hexpm"},
   "decimal": {:hex, :decimal, "1.7.0", "30d6b52c88541f9a66637359ddf85016df9eb266170d53105f02e4a67e00c5aa", [:mix], [], "hexpm"},
   "dialyxir": {:hex, :dialyxir, "1.0.0-rc.5", "c9c2379c59cf2dfc74690f48866e33ffb55ff660e5e02405c14614d204efdc4f", [:mix], [{:erlex, "~> 0.2.1", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm"},
