@@ -79,8 +79,15 @@ defmodule DawdleDB.Migration do
   end
 
   defp channel do
-    :ok = Application.load(:dawdle_db)
+    ensure_loaded(:dawdle_db)
     Confex.fetch_env!(:dawdle_db, :channel)
+  end
+
+  defp ensure_loaded(app) do
+    case Application.load(app) do
+      :ok -> :ok
+      {:error, {:already_loaded, _}} -> :ok
+    end
   end
 
   defp wrap_overrides(object, overrides) do
