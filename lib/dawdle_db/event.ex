@@ -11,5 +11,10 @@ defmodule DawdleDB.Event do
   ]
 
   @type action :: :insert | :update | :delete
-  @type t :: %__MODULE__{}
+  @type t :: %__MODULE__{
+    table: binary(),
+    action: action(),
+    old: map(),
+    new: map()
+  }
 end

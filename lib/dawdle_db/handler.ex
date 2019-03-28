@@ -59,7 +59,7 @@ defmodule DawdleDB.Handler do
   end
 
   @doc false
-  @spec _rehydrate(struct(), nil | map()) :: nil | struct()
+  # credo:disable-for-lines:5 Credo.Check.Readability.Specs
   def _rehydrate(_type, nil), do: nil
 
   def _rehydrate(type, data) do
