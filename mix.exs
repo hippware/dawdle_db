@@ -10,6 +10,9 @@ defmodule DawdleDB.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       aliases: aliases(),
+      package: package(),
+      description: description(),
+      docs: docs(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
@@ -78,6 +81,29 @@ defmodule DawdleDB.MixProject do
   defp aliases do
     [
       ci: ["credo -a --strict --verbose", "ecto.migrate", "test"]
+    ]
+  end
+
+  defp description do
+    """
+    DawdleDB uses Dawdle and SQS to capture change notifications from
+    PostgreSQL.
+    """
+  end
+
+  defp package do
+    [
+      maintainers: ["Bernard Duggan", "Phil Toland"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/hippware/dawdle_db"}
+    ]
+  end
+
+  defp docs do
+    [
+      source_ref: "v#\{@version\}",
+      main: "readme",
+      extras: ["README.md"]
     ]
   end
 end

@@ -1,7 +1,5 @@
 defmodule DawdleDB.Event do
-  @moduledoc """
-  Struct containing an event from the DB watcher
-  """
+  @moduledoc false
 
   defstruct [
     :table,

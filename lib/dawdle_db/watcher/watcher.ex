@@ -1,9 +1,5 @@
 defmodule DawdleDB.Watcher do
-  @moduledoc """
-  This module implementes the GenStage producer for DB callback events.
-  Tables that you want events for must have appropriate triggers and functions
-  created. @see Wocky.Repo.Migration.Utils
-  """
+  @moduledoc false
 
   defmodule State do
     @moduledoc false

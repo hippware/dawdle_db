@@ -1,7 +1,6 @@
 defmodule DawdleDB.Watcher.Supervisor do
-  @moduledoc """
-  The Wocky DB Watcher Service.
-  """
+  @moduledoc false
+
   use Supervisor
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
