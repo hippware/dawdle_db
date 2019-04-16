@@ -58,7 +58,7 @@ defmodule DawdleDB.MixProject do
     [
       {:confex, "~> 3.4"},
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:dawdle, github: "hippware/dawdle", branch: "dev-0.5.0"},
+      {:dawdle, "~> 0.5"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:ecto, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
