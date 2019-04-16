@@ -9,6 +9,7 @@ defmodule DawdleDB.MixProject do
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
+      aliases: aliases(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
@@ -71,6 +72,12 @@ defmodule DawdleDB.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_machina, "~> 2.3", only: :test},
       {:faker, "~> 0.12", only: :test}
+    ]
+  end
+
+  defp aliases do
+    [
+      ci: ["credo -a --strict --verbose", "ecto.migrate", "test"]
     ]
   end
 end

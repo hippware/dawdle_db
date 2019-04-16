@@ -1,0 +1,15 @@
+FROM hippware/alpine-elixir-dev:1.8.1
+
+ENV MIX_ENV=test
+
+# Cache elixir deps
+COPY mix.exs mix.lock ./
+
+RUN mix deps.get && \
+    mix deps.compile && \
+    # mix dialyzer --plt && \
+    mix deps.compile
+
+COPY . .
+
+RUN mix compile

@@ -1,0 +1,21 @@
+test-with-db:
+  build:
+    context: .
+    dockerfile: Dockerfile.build
+    image: hippware/dawdle:build
+  cached: true
+  environment:
+    DAWDLEDB_DB_DATABASE: "dawdle_db_test"
+    DAWDLEDB_DB_USERNAME: "postgres"
+    DAWDLEDB_DB_PASSWORD: "password"
+    DAWDLEDB_DB_HOSTNAME: "postgres"
+  depends_on:
+    - postgres
+postgres:
+  image: healthcheck/postgres:alpine
+  environment:
+    POSTGRES_DB: "dawdle_db_test"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "password"
+  ports:
+    - "5432"
