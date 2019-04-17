@@ -1,13 +1,57 @@
 defmodule DawdleDB.Handler do
   @moduledoc """
-  Helper module for DB callback modules
+  Defines a handler for database events on a single table.
+
+  To define an event handler, `use DawdleDB.Handler` and provide a Ecto schema
+  type that you wish to handle. Then, override the callbacks
+  `c:handle_insert/1`, `c:handle_update/2`, `c:handle_delete/1`,
+  as appropriate.
+
+  ## Examples
+
+  ```
+  defmodule MyApp.TestDBHandler do
+    use DawdleDB.Handler, type: [MyApp.MySchema]
+
+    alias MyApp.MySchema
+
+    def handle_insert(%MySchema{} = new) do
+      # Do something...
+    end
+
+    def handle_update(%MySchema{} = new, old) do
+      # Do something else...
+    end
+
+    def handle_delete(%MySchema{} = old) do
+      # Default case
+    end
+  end
+  ```
   """
 
   alias Ecto.Changeset
   alias Ecto.Schema
 
+  @doc """
+  This function is called when DawdleDB pulls an insert event for the specified
+  table from the queue. The function is executed for its side effects
+  and the return value is ignored.
+  """
   @callback handle_insert(new :: Schema.t()) :: any()
+
+  @doc """
+  This function is called when DawdleDB pulls an update event for the specified
+  table from the queue. The function is executed for its side effects and the
+  return value is ignored.
+  """
   @callback handle_update(new :: Schema.t(), old :: Schema.t()) :: any()
+
+  @doc """
+  This function is called when DawdleDB pulls a delete event for the specified
+  table from the queue. The function is executed for its side effects and the
+  return value is ignored.
+  """
   @callback handle_delete(old :: Schema.t()) :: any()
 
   defmacro __using__(opts) do

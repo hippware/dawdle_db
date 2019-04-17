@@ -1,6 +1,27 @@
 defmodule DawdleDB.Migration do
   @moduledoc """
-  This module provides utilities for db migration actions
+  Utilities for managing the DawdleDB events table and notification related
+  triggers.
+
+  ## Examples
+
+  ```
+  defmodule MyApp.DawdleDBSetup do
+    use Ecto.Migration
+
+    import DawdleDB.Migration
+
+    def up do
+      create_watcher_events_table()
+      update_notify("users", [:insert, :update, :delete])
+    end
+
+    def down do
+      remove_notify("users", [:insert, :update, :delete])
+      drop_watcher_events_table()
+    end
+  end
+  ```
   """
 
   import Ecto.Migration
@@ -10,6 +31,11 @@ defmodule DawdleDB.Migration do
   @type table :: binary
   @type override :: {binary, binary}
 
+  @doc """
+  Creates the DawdleDB watcher events table.
+
+  This table is necessary for DawdleDB to manage events.
+  """
   @spec create_watcher_events_table :: :ok
   def create_watcher_events_table do
     create table("watcher_events") do
@@ -21,6 +47,9 @@ defmodule DawdleDB.Migration do
     :ok
   end
 
+  @doc """
+  Drops the DawdleDB watcher events table.
+  """
   @spec drop_watcher_events_table :: :ok
   def drop_watcher_events_table do
     drop table("watcher_events")
@@ -28,11 +57,21 @@ defmodule DawdleDB.Migration do
     :ok
   end
 
-  # Add function/trigger for DB notifications. @see WockyDBWatcher.Watcher
-  # To override the encoding of particular fields, provide an override with
-  # $ITEM$ as the item to be overridden. For example, to override the encoding
-  # of the "title" field, use:
-  # {"title", "my_encoding_function($ITEM$)"}
+  @doc """
+  Add event notification function/trigger to a table.
+
+  To override the encoding of particular fields, provide an override with
+  `$ITEM$` as the item to be overridden. For example, to override the encoding
+  of the "title" field, use: `{"title", "my_encoding_function($ITEM$)"}`.
+
+  ## Examples
+
+  ```
+  update_notify("my_table", [:insert, :update])
+
+  update_notify("other_table", [:insert], [{"title", "my_encoding_function($ITEM$)"}])
+  ```
+  """
   @spec update_notify(table(), [Event.action()], [override()]) :: :ok
   def update_notify(table, actions, overrides \\ [])
 
@@ -135,7 +174,15 @@ defmodule DawdleDB.Migration do
     """)
   end
 
-  ### Remove function/trigger
+  @doc """
+  Remove event notification function/trigger from a table.
+
+  ## Examples
+
+  ```
+  remove_notify("my_table", [:insert])
+  ```
+  """
   @spec remove_notify(table(), Event.action() | [Event.action()]) :: :ok
   def remove_notify(table, actions) when is_list(actions),
     do: Enum.each(actions, &remove_notify(table, &1))
