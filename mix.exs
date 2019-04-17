@@ -1,10 +1,12 @@
 defmodule DawdleDB.MixProject do
   use Mix.Project
 
+  @version "0.5.0"
+
   def project do
     [
       app: :dawdle_db,
-      version: "0.5.0",
+      version: @version,
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -101,7 +103,7 @@ defmodule DawdleDB.MixProject do
 
   defp docs do
     [
-      source_ref: "v#\{@version\}",
+      source_ref: "v#{@version}",
       main: "readme",
       extras: ["README.md"]
     ]
