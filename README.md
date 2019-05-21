@@ -27,6 +27,10 @@ handed off to handlers for processing.
 For best results, there should only be one instance of DawdleDB running in
 watcher mode; though you can have many instances running in listener mode.
 
+A model application to run DawdleDB in watcher mode that can be deployed as-is
+or customized for a particular application can be found at
+https://github.com/hippware/dawdle_db_watcher.
+
 ### Initial setup
 
 DawdleDB relies on database triggers to fire the appropriate notifications.
