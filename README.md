@@ -41,7 +41,7 @@ For example, if you already have a `users` table and you wish to recieve
 notifications on insert, update, and delete, you could create a migration like
 the following:
 
-```
+```elixir
 defmodule MyApp.DawdleDBSetup do
   use Ecto.Migration
 
@@ -64,7 +64,7 @@ end
 Once the watcher events table has been created, and triggers have been setup,
 define a handler based on `DawdleDB.Handler`.
 
-```
+```elixir
 defmodule MyApp.UserHandler do
   use DawdleDB.Handler, type: MyApp.User
 
