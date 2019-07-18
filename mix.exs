@@ -71,7 +71,7 @@ defmodule DawdleDB.MixProject do
       {:ex_aws, "~> 2.0"},
       {:ex_aws_sqs, "~> 2.0"},
       {:poison, "~> 3.0 or ~> 4.0"},
-      {:postgrex, "~> 0.14.0"},
+      {:postgrex, "~> 0.15.0"},
       {:timex, "~> 3.5"},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
