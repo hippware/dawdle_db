@@ -15,10 +15,12 @@ defmodule DawdleDB.Watcher do
 
   use GenServer
 
-  require Logger
+  import Dawdle.Telemetry
 
   alias DawdleDB.Event
   alias Postgrex.Notifications
+
+  require Logger
 
   @doc false
   @spec start_link(any()) :: GenServer.on_start()
@@ -49,45 +51,34 @@ defmodule DawdleDB.Watcher do
         {:notification, _, ref, channel, payload},
         %State{ref: ref, channel: channel} = state
       ) do
-    start_time = System.monotonic_time()
-    :telemetry.execute(
-      [:dawdle_db, :notification, :start],
-      %{time: start_time},
-      %{}
-    )
+    timed_fun(
+      [:dawdle_db, :notification],
+      %{},
+      fn ->
+        j = parse(payload)
 
-    j = parse(payload)
+        result =
+          Postgrex.query!(
+            :watcher_postgrex,
+            "DELETE FROM watcher_events WHERE id = $1 RETURNING payload",
+            [j.id]
+          )
 
-    result =
-      Postgrex.query!(
-        :watcher_postgrex,
-        "DELETE FROM watcher_events WHERE id = $1 RETURNING payload",
-        [j.id]
-      )
+        if result.num_rows == 1 do
+          full_event = parse(hd(result.rows))
 
-    result =
-      if result.num_rows == 1 do
-        full_event = parse(hd(result.rows))
-
-        %Event{
-          table: full_event.table,
-          action: String.to_existing_atom(full_event.action)
-        }
-        |> maybe_add_rec(:old, full_event)
-        |> maybe_add_rec(:new, full_event)
-        |> send_or_enqueue(state)
-      else
-        {:noreply, state}
+          %Event{
+            table: full_event.table,
+            action: String.to_existing_atom(full_event.action)
+          }
+          |> maybe_add_rec(:old, full_event)
+          |> maybe_add_rec(:new, full_event)
+          |> send_or_enqueue(state)
+        else
+          {:noreply, state}
+        end
       end
-
-    duration = System.monotonic_time() - start_time
-    :telemetry.execute(
-      [:dawdle_db, :notification, :stop],
-      %{duration: duration},
-      %{}
     )
-
-    result
   end
 
   def handle_info(:timeout, state), do: flush(state)
@@ -113,7 +104,6 @@ defmodule DawdleDB.Watcher do
          msg,
          %{pending: pending, batch_timeout: batch_timeout} = state
        ) do
-
     :telemetry.execute(
       [:dawdle_db, :watcher, :enqueue],
       %{count: length(pending) + 1},
@@ -140,22 +130,10 @@ defmodule DawdleDB.Watcher do
 
   # Ideally we'd use 'atoms!' here, but we don't actually know all the object keys
   defp parse(payload) do
-    start_time = System.monotonic_time()
-    :telemetry.execute(
-      [:dawdle_db, :parse, :start],
-      %{time: start_time},
-      %{}
+    timed_fun(
+      [:dawdle_db, :parse],
+      %{},
+      fn -> Poison.decode!(payload, keys: :atoms) end
     )
-
-    result = Poison.decode!(payload, keys: :atoms)
-
-    duration = System.monotonic_time() - start_time
-    :telemetry.execute(
-      [:dawdle_db, :parse, :stop],
-      %{duration: duration},
-      %{}
-    )
-
-    result
   end
 end
