@@ -13,6 +13,7 @@ defmodule DawdleDB.Watcher.SwarmContainer do
     GenServer.start_link(__MODULE__, [module, fun, args])
   end
 
+  @impl true
   def init([module, fun, args]) do
     {:ok, _pid} = :erlang.apply(module, fun, args)
   end
@@ -24,6 +25,7 @@ defmodule DawdleDB.Watcher.SwarmContainer do
   #   - `{:resume, state}`, to hand off some state to the new process
   #   - `:ignore`, to leave the process running on its current node
   #
+  @impl true
   def handle_call({:swarm, :begin_handoff}, _from, pid) do
     {:reply, :restart, pid}
   end
@@ -33,6 +35,7 @@ defmodule DawdleDB.Watcher.SwarmContainer do
   # side of the split is handing off its state to us. You can choose
   # to ignore the handoff state, or apply your own conflict resolution
   # strategy
+  @impl true
   def handle_cast({:swarm, :resolve_conflict, _state}, pid) do
     {:noreply, pid}
   end
@@ -40,6 +43,7 @@ defmodule DawdleDB.Watcher.SwarmContainer do
   # this message is sent when this process should die
   # because it is being moved, use this as an opportunity
   # to clean up
+  @impl true
   def handle_info({:swarm, :die}, pid) do
     Supervisor.stop(pid, :shutdown, 5000)
     {:stop, :shutdown, pid}
