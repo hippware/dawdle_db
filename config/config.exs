@@ -3,7 +3,9 @@ use Mix.Config
 if Mix.env() == :test do
   config :dawdle, start_pollers: true
 
-  config :dawdle_db, ecto_repos: [DawdleDB.Repo]
+  config :dawdle_db,
+    ecto_repos: [DawdleDB.Repo],
+    start_watcher: false
 
   config :dawdle_db, DawdleDB.Repo,
     database: {:system, "DAWDLEDB_DB_DATABASE", "dawdle_db_test"},

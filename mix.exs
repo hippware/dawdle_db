@@ -39,10 +39,13 @@ defmodule DawdleDB.MixProject do
   def application do
     [
       extra_applications: [:logger],
+      mod: {DawdleDB.Application, []},
       env: [
         channel: {:system, "DAWDLEDB_CHANNEL", "dawdle_db_watcher_notify"},
-        batch_timeout: 50,
-        batch_max_size: 10,
+        batch_timeout: {:system, :integer, "DAWDLEDB_BATCH_TIMEOUT", 50},
+        batch_max_size: {:system, :integer, "DAWDLEDB_BATCH_MAX_SIZE", 10},
+        start_watcher: {:system, :boolean, "DAWDLEDB_START_WATCHER", true},
+        repo: {:system, :module, "DAWDLEDB_REPO"},
         db: [
           database: {:system, "DAWDLEDB_DB_DATABASE", ""},
           username: {:system, "DAWDLEDB_DB_USERNAME", "postgres"},
@@ -76,6 +79,7 @@ defmodule DawdleDB.MixProject do
       {:faker, "~> 0.12", only: :test},
       {:poison, "~> 3.0 or ~> 4.0"},
       {:postgrex, "~> 0.15.0"},
+      {:swarm, "~> 3.4"},
       {:telemetry, "~> 0.4.0"},
       {:timex, "~> 3.5"}
     ]
