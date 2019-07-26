@@ -64,19 +64,20 @@ defmodule DawdleDB.MixProject do
     [
       {:confex, "~> 3.4"},
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:dawdle, "~> 0.5"},
+      {:dawdle, "~> 0.6"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:ecto, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_sqs, "~> 2.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_machina, "~> 2.3", only: :test},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:faker, "~> 0.12", only: :test},
       {:poison, "~> 3.0 or ~> 4.0"},
       {:postgrex, "~> 0.15.0"},
-      {:timex, "~> 3.5"},
-      {:ex_doc, ">= 0.0.0", only: :dev},
-      {:excoveralls, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.3", only: :test},
-      {:faker, "~> 0.12", only: :test}
+      {:telemetry, "~> 0.4.0"},
+      {:timex, "~> 3.5"}
     ]
   end
 
