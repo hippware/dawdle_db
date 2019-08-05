@@ -25,11 +25,35 @@ is then posted to SQS. In listener mode, the events are pulled out of SQS and
 handed off to handlers for processing.
 
 For best results, there should only be one instance of DawdleDB running in
-watcher mode; though you can have many instances running in listener mode.
+watcher mode; though you can have many instances running in listener mode. In
+normal use, DawdleDB can handle this internally. You can start the watcher from
+your application's `start` callback and DawdleDB will use [Swarm] to ensure that there is only one instance of the watcher running. The function
+`DawdleDB.start_watcher/1` takes the name of your Ecto repo and will use the
+repo's configuration to connect to the database.
 
-A model application to run DawdleDB in watcher mode that can be deployed as-is
-or customized for a particular application can be found at
-https://github.com/hippware/dawdle_db_watcher.
+```elixir
+defmodule MyApp do
+  use Application
+
+  def start(_type, _args) do
+    children = [
+      # ...
+    ]
+
+    opts = [strategy: :one_for_one, name: MyApp.Supervisor]
+    sup = Supervisor.start_link(children, opts)
+
+    DawdleDB.start_watcher(MyApp.Repo)
+
+    sup
+  end
+end
+```
+
+If you want to run the DawdleDB watcher in a separate application, a model
+application that can be deployed as-is or customized for a particular
+application can be found at https://github.com/hippware/dawdle_db_watcher.
+
 
 ### Initial setup
 
@@ -86,3 +110,5 @@ defmodule MyApp.UserHandler do
   end
 end
 ```
+
+[Swarm]: https://github.com/bitwalker/swarm
