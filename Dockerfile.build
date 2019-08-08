@@ -10,6 +10,7 @@ RUN mix deps.get && \
     # mix dialyzer --plt && \
     mix deps.compile
 
+COPY .check.exs .credo.exs .formatter.exs ./
 COPY . .
 
 RUN mix compile

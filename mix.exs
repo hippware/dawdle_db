@@ -85,7 +85,7 @@ defmodule DawdleDB.MixProject do
 
   defp aliases do
     [
-      ci: ["credo -a --strict --verbose", "ecto.migrate", "test"]
+      ci: ["ecto.migrate", "check --except dialyzer"]
     ]
   end
 
