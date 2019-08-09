@@ -70,7 +70,8 @@ defmodule DawdleDB.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_sqs, "~> 2.0"},
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_check, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:ex_machina, "~> 2.3", only: :test},
       {:excoveralls, "~> 0.10", only: :test},
       {:faker, "~> 0.12", only: :test},
@@ -84,7 +85,7 @@ defmodule DawdleDB.MixProject do
 
   defp aliases do
     [
-      ci: ["credo -a --strict --verbose", "ecto.migrate", "test"]
+      ci: ["ecto.migrate", "check --except dialyzer"]
     ]
   end
 
