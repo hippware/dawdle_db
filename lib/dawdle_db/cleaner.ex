@@ -33,15 +33,16 @@ defmodule DawdleDB.Cleaner do
         [timestamp]
       )
 
-    case result.num_rows do
-      0 ->
-        :ok
+    _ =
+      case result.num_rows do
+        0 ->
+          :ok
 
-      _ ->
-        Logger.error(
-          "Cleaned #{result.num_rows} from watcher events table: #{inspect(result.rows)}"
-        )
-    end
+        _ ->
+          Logger.error(
+            "Cleaned #{result.num_rows} from watcher events table: #{inspect(result.rows)}"
+          )
+      end
 
     {:noreply, state, @clean_interval}
   end
