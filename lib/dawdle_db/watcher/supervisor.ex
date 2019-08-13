@@ -25,7 +25,8 @@ defmodule DawdleDB.Watcher.Supervisor do
           {Postgrex.Notifications, :start_link,
            [Keyword.put(config, :name, :watcher_notifications)]}
       },
-      {DawdleDB.Watcher, []}
+      {DawdleDB.Watcher, []},
+      {DawdleDB.Cleaner, []}
     ]
 
     Supervisor.init(children, strategy: :rest_for_one)
