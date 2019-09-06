@@ -117,7 +117,7 @@ defmodule DawdleDB.Watcher do
     :ok =
       pending
       |> Enum.reverse()
-      |> Dawdle.signal()
+      |> Enum.each(&Dawdle.signal/1)
 
     :telemetry.execute(
       [:dawdle_db, :watcher, :flush],

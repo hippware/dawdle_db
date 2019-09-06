@@ -64,12 +64,11 @@ defmodule DawdleDB.MixProject do
     [
       {:confex, "~> 3.4"},
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:dawdle, "~> 0.6"},
+      {:dawdle, "~> 0.7"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:ecto, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
       {:ex_aws, "~> 2.0"},
-      {:ex_aws_sqs, "~> 2.0"},
       {:ex_check, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:ex_machina, "~> 2.3", only: :test},
