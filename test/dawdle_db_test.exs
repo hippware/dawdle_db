@@ -14,17 +14,17 @@ defmodule DawdleDBTest do
     use DawdleDB.Handler, type: DawdleDB.Data
 
     def handle_insert(%Data{pid: spid} = new) do
-      pid = Term.decode(spid)
+      {:ok, pid} = Term.decode(spid)
       send(pid, {:insert, new})
     end
 
     def handle_update(%Data{pid: spid} = new, old) do
-      pid = Term.decode(spid)
+      {:ok, pid} = Term.decode(spid)
       send(pid, {:update, new, old})
     end
 
     def handle_delete(%Data{pid: spid} = old) do
-      pid = Term.decode(spid)
+      {:ok, pid} = Term.decode(spid)
       send(pid, {:delete, old})
     end
   end
@@ -37,17 +37,17 @@ defmodule DawdleDBTest do
   end
 
   test "generates insert event" do
-    pid = self()
+    {:ok, spid} = Term.encode(self())
 
-    %{id: id} = Factory.insert(:data, pid: Term.encode(pid))
+    %{id: id} = Factory.insert(:data, pid: spid)
 
     assert_receive {:insert, %Data{id: ^id}}, 500
   end
 
   test "generates update event" do
-    pid = self()
+    {:ok, spid} = Term.encode(self())
 
-    data = %{id: id} = Factory.insert(:data, pid: Term.encode(pid))
+    data = %{id: id} = Factory.insert(:data, pid: spid)
 
     data
     |> Data.changeset(%{text: Lorem.sentence()})
@@ -63,9 +63,9 @@ defmodule DawdleDBTest do
   end
 
   test "generates delete event" do
-    pid = self()
+    {:ok, spid} = Term.encode(self())
 
-    data = %{id: id} = Factory.insert(:data, pid: Term.encode(pid))
+    data = %{id: id} = Factory.insert(:data, pid: spid)
 
     Repo.delete(data)
 
