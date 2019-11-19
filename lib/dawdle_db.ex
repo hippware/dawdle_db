@@ -4,7 +4,6 @@ defmodule DawdleDB do
   """
 
   alias DawdleDB.Watcher.Supervisor, as: WatcherSup
-  alias DawdleDB.Watcher.SwarmContainer
 
   @doc """
   Starts the DawdleDB notification watcher.
@@ -14,14 +13,7 @@ defmodule DawdleDB do
   """
   @spec start_watcher(Ecto.Repo.t()) :: :ok | {:error, any()}
   def start_watcher(repo) do
-    result =
-      Swarm.whereis_or_register_name(
-        DawdleDBWatcher,
-        SwarmContainer,
-        :start_link,
-        [WatcherSup, :start_link, [repo.config]],
-        5000
-      )
+    result = Loner.start(WatcherSup, repo.config)
 
     case result do
       {:ok, _} -> :ok

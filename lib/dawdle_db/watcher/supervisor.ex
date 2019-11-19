@@ -3,9 +3,9 @@ defmodule DawdleDB.Watcher.Supervisor do
 
   use Supervisor
 
-  @spec start_link(Keyword.t()) :: GenServer.on_start()
+  @spec start_link(Keyword.t()) :: Supervisor.on_start()
   def start_link(config \\ []) do
-    Supervisor.start_link(__MODULE__, config, name: __MODULE__)
+    Supervisor.start_link(__MODULE__, config, name: Loner.name(__MODULE__))
   end
 
   @impl true
