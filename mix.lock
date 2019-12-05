@@ -38,7 +38,7 @@
   "nimble_parsec": {:hex, :nimble_parsec, "0.5.1", "c90796ecee0289dbb5ad16d3ad06f957b0cd1199769641c961cfe0b97db190e0", [:mix], [], "hexpm"},
   "parse_trans": {:hex, :parse_trans, "3.3.0", "09765507a3c7590a784615cfd421d101aec25098d50b89d7aa1d66646bc571c1", [:rebar3], [], "hexpm"},
   "poison": {:hex, :poison, "4.0.1", "bcb755a16fac91cad79bfe9fc3585bb07b9331e50cfe3420a24bcc2d735709ae", [:mix], [], "hexpm"},
-  "postgrex": {:hex, :postgrex, "0.15.1", "23ce3417de70f4c0e9e7419ad85bdabcc6860a6925fe2c6f3b1b5b1e8e47bf2f", [:mix], [{:connection, "~> 1.0", [hex: :connection, repo: "hexpm", optional: false]}, {:db_connection, "~> 2.1", [hex: :db_connection, repo: "hexpm", optional: false]}, {:decimal, "~> 1.5", [hex: :decimal, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm"},
+  "postgrex": {:hex, :postgrex, "0.15.2", "052dad08d934863d1a4dcbd48ae7fc2af21a8535f556121e91b13b2884b0965a", [:mix], [{:connection, "~> 1.0", [hex: :connection, repo: "hexpm", optional: false]}, {:db_connection, "~> 2.1", [hex: :db_connection, repo: "hexpm", optional: false]}, {:decimal, "~> 1.5", [hex: :decimal, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm"},
   "redbug": {:hex, :redbug, "1.2.1", "9153ee50e42c39ce3f6efa65ee746f4a52896da66862cfb59e7c0f838b7b8414", [:rebar3], [], "hexpm"},
   "rexbug": {:hex, :rexbug, "1.0.0", "52b5d25c423f1c31ecce6960a556cac6391f62d61945f305248b07149567456c", [:mix], [{:redbug, "~> 1.2", [hex: :redbug, repo: "hexpm", optional: false]}], "hexpm"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.5", "6eaf7ad16cb568bb01753dbbd7a95ff8b91c7979482b95f38443fe2c8852a79b", [:make, :mix, :rebar3], [], "hexpm"},
