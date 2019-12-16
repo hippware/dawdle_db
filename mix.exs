@@ -75,8 +75,8 @@ defmodule DawdleDB.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:faker, "~> 0.12", only: :test},
       {:poison, "~> 3.0 or ~> 4.0"},
-      {:postgrex, "~> 0.15.0"},
       {:swarm, "~> 3.4"},
+      {:postgrex, "~> 0.15.3"},
       {:telemetry, "~> 0.4.0"},
       {:timex, "~> 3.5"}
     ]
