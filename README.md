@@ -10,7 +10,7 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:dawdle_db, "~> 0.7.0"}
+    {:dawdle_db, "~> 0.8.0"}
   ]
 end
 ```
