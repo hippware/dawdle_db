@@ -10,10 +10,16 @@ defmodule DawdleDB.Data do
     field :pid, :string
     field :text, :string
 
+    embeds_one(:single_embed, DawdleDB.EmbedData)
+    embeds_many(:multi_embed, DawdleDB.EmbedData)
+
     timestamps()
   end
 
   def changeset(struct, params) do
-    cast(struct, params, [:pid, :text])
+    struct
+    |> cast(params, [:pid, :text])
+    |> cast_embed(:single_embed)
+    |> cast_embed(:multi_embed)
   end
 end
