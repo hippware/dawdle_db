@@ -113,6 +113,7 @@ defmodule DawdleDB.Handler do
     |> Changeset.apply_changes()
   end
 
+  @spec _rehydrate_embeds(Changeset.t()) :: Changeset.t()
   def _rehydrate_embeds(changeset) do
     changeset.data.__struct__.__schema__(:embeds)
     |> Enum.reduce(changeset, &Changeset.cast_embed(&2, &1))

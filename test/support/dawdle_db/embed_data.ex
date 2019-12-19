@@ -15,7 +15,8 @@ defmodule DawdleDB.EmbedData do
   end
 
   def changeset(struct, params) do
-    cast(struct, params, [:key, :value])
+    struct
+    |> cast(params, [:key, :value])
     |> cast_embed(:inception)
   end
 end
