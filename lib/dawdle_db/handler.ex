@@ -108,8 +108,14 @@ defmodule DawdleDB.Handler do
 
   def _rehydrate(type, data) do
     type.__struct__
-    |> Changeset.cast(data, type.__schema__(:fields))
+    |> Changeset.cast(data, type.__schema__(:fields) -- type.__schema__(:embeds))
+    |> _rehydrate_embeds()
     |> Changeset.apply_changes()
+  end
+
+  def _rehydrate_embeds(changeset) do
+    changeset.data.__struct__.__schema__(:embeds)
+    |> Enum.reduce(changeset, &Changeset.cast_embed(&2, &1))
   end
 
   @doc false
