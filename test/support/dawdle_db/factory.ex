@@ -20,7 +20,11 @@ defmodule DawdleDB.Factory do
   def embed_data_factory do
     %EmbedData{
       key: Lorem.word(),
-      value: Lorem.word()
+      value: Lorem.word(),
+      inception: %EmbedData{
+        key: Lorem.word(),
+        value: Lorem.word()
+      }
     }
   end
 end
