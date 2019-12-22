@@ -3,7 +3,8 @@ defmodule DawdleDB.Factory do
 
   use ExMachina.Ecto, repo: DawdleDB.Repo
 
-  alias DawdleDB.{Data, EmbedData}
+  alias DawdleDB.Data
+  alias DawdleDB.EmbedData
   alias Faker.Lorem
 
   def data_factory do
