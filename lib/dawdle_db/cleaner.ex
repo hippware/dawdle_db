@@ -39,13 +39,17 @@ defmodule DawdleDB.Cleaner do
           :ok
 
         _ ->
-          Logger.error(
-            "Cleaned #{result.num_rows} from watcher events table: #{inspect(result.rows)}"
-          )
+          if Confex.get_env(:dawdle_db, :log_cleanup_errors) do
+            log_cleanup_errors(result)
+          end
       end
 
     {:noreply, state, @clean_interval}
   end
 
   def handle_info(_info, state), do: {:noreply, state}
+
+  defp log_cleanup_errors(result) do
+    Logger.error("Cleaned #{result.num_rows} from watcher events table: #{inspect(result.rows)}")
+  end
 end

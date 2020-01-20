@@ -5,9 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.7.2] 2020-01-20
+### Fixed
+- Fix the postgrex automatic reconnection
+
+### Added
+- Rehydration of embedded schemas
+- Option to disable event cleanup error (`:log_cleanup_errors`)
+
 ## [0.7.1] 2019-12-16
+### Added
 - Enable postgrex's automatic reconnection for notification connections (see
-[:auto_reconnect in start_link/1](https://hexdocs.pm/postgrex/Postgrex.Notifications.html#start_link/1)
+[:auto_reconnect in start_link/1](https://hexdocs.pm/postgrex/Postgrex.Notifications.html#start_link/1))
 
 ## [0.7.0] - 2019-09-06
 ### Changed
