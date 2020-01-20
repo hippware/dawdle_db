@@ -43,7 +43,6 @@ defmodule DawdleDB.Cleaner do
             log_cleanup_errors(result)
           end
       end
-    end
 
     {:noreply, state, @clean_interval}
   end
@@ -51,8 +50,6 @@ defmodule DawdleDB.Cleaner do
   def handle_info(_info, state), do: {:noreply, state}
 
   defp log_cleanup_errors(result) do
-    Logger.error(
-      "Cleaned #{result.num_rows} from watcher events table: #{inspect(result.rows)}"
-    )
+    Logger.error("Cleaned #{result.num_rows} from watcher events table: #{inspect(result.rows)}")
   end
 end
