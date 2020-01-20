@@ -2,7 +2,7 @@ test-with-db:
   build:
     context: .
     dockerfile: Dockerfile.build
-    image: hippware/dawdle:build
+    image: hippware/dawdle-db:build
   cached: true
   environment:
     DAWDLEDB_DB_DATABASE: "dawdle_db_test"
