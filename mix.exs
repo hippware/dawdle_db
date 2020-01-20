@@ -40,6 +40,7 @@ defmodule DawdleDB.MixProject do
     [
       extra_applications: [:logger],
       env: [
+        log_cleanup_errors: true,
         channel: {:system, "DAWDLEDB_CHANNEL", "dawdle_db_watcher_notify"},
         batch_timeout: {:system, :integer, "DAWDLEDB_BATCH_TIMEOUT", 50},
         batch_max_size: {:system, :integer, "DAWDLEDB_BATCH_MAX_SIZE", 10},
