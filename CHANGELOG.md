@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix the postgrex automatic reconnection
 
 ### Added
+- Rehydration of embedded schemas
 - Option to disable event cleanup error (`:log_cleanup_errors`)
 
 ## [0.7.1] 2019-12-16
