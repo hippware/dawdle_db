@@ -13,7 +13,10 @@ defmodule DawdleDBCleanerTest do
     Postgrex.query!(:watcher_postgrex, "DELETE FROM watcher_events", [])
 
     new =
-      Postgrex.query!(:watcher_postgrex, @insert_query, [Lorem.word(), DateTime.utc_now()]).rows
+      Postgrex.query!(:watcher_postgrex, @insert_query, [
+        Lorem.word(),
+        DateTime.utc_now()
+      ]).rows
 
     _old =
       Postgrex.query!(:watcher_postgrex, @insert_query, [
@@ -27,7 +30,11 @@ defmodule DawdleDBCleanerTest do
   test "cleans up old records", ctx do
     assert {:noreply, nil, _} = Cleaner.handle_info(:timeout, nil)
 
-    assert Postgrex.query!(:watcher_postgrex, "SELECT * FROM watcher_events", []).rows ==
+    assert Postgrex.query!(
+             :watcher_postgrex,
+             "SELECT * FROM watcher_events",
+             []
+           ).rows ==
              ctx.new
   end
 end

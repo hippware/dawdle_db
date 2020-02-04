@@ -71,4 +71,12 @@ defmodule DawdleDBTest do
 
     assert_receive {:delete, %Data{id: ^id}}, 500
   end
+
+  test "correclty recovers map data" do
+    {:ok, spid} = Term.encode(self())
+
+    %{id: id, map: map} = Factory.insert(:data, pid: spid)
+
+    assert_receive {:insert, %Data{id: ^id, map: ^map}}, 500
+  end
 end

@@ -27,7 +27,8 @@ handed off to handlers for processing.
 For best results, there should only be one instance of DawdleDB running in
 watcher mode; though you can have many instances running in listener mode. In
 normal use, DawdleDB can handle this internally. You can start the watcher from
-your application's `start` callback and DawdleDB will use [Swarm] to ensure that there is only one instance of the watcher running. The function
+your application's `start` callback and DawdleDB will use [Swarm] to ensure that
+there is only one instance of the watcher running. The function
 `DawdleDB.start_watcher/1` takes the name of your Ecto repo and will use the
 repo's configuration to connect to the database.
 
@@ -61,7 +62,7 @@ DawdleDB relies on database triggers to fire the appropriate notifications.
 There are helpers defined in `DawdleDB.Migration` to simplify initial setup
 and defining the triggers.
 
-For example, if you already have a `users` table and you wish to recieve
+For example, if you already have a `users` table and you wish to receive
 notifications on insert, update, and delete, you could create a migration like
 the following:
 
@@ -110,5 +111,35 @@ defmodule MyApp.UserHandler do
   end
 end
 ```
+
+### A note about the `:map` type
+
+In Ecto, maps stored with atom-typed keys will always be
+returned from queries with string-typed keys. DawdleDB intentionally mimics this
+behaviour for consistency, meaning that the records contained in events with a
+`:map` type field may be different from the originally inserted data (if you
+used atoms as keys).
+
+In other words, if you insert this:
+
+```elixir
+%MyRecord{
+  map: %{a: "b"}
+}
+```
+
+The record contained in the insertion event will be
+
+```elixir
+%MyRecord{
+  map: %{"a" => "b"}
+}
+```
+
+(which is the same as the record you would receive from a standard Ecto query).
+
+It's worth noting that the
+[Ecto documentation](https://hexdocs.pm/ecto/Ecto.Schema.html#module-the-map-type)
+recommends using string keys at all times anyway.
 
 [Swarm]: https://github.com/bitwalker/swarm

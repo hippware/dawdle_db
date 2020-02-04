@@ -14,7 +14,11 @@ defmodule DawdleDB.Factory do
       multi_embed: [
         embed_data_factory(),
         embed_data_factory()
-      ]
+      ],
+      map: %{
+        "string" => Lorem.word(),
+        "integer" => :rand.uniform(1_000_000)
+      }
     }
   end
 
