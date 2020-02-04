@@ -34,7 +34,10 @@ defmodule DawdleDB.Watcher do
     batch_timeout = Confex.fetch_env!(:dawdle_db, :batch_timeout)
     batch_max_size = Confex.fetch_env!(:dawdle_db, :batch_max_size)
 
-    ref = Notifications.listen!(:watcher_notifications, channel)
+    ref =
+      Notifications.listen!(:watcher_notifications, channel,
+        auto_reconnect: true
+      )
 
     {:ok,
      %State{

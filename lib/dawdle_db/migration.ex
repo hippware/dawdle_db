@@ -136,7 +136,8 @@ defmodule DawdleDB.Migration do
   defp wrap_overrides(base, _object, []), do: base
 
   defp wrap_overrides(base, object, [{field, action} | rest]) do
-    mapped_action = String.replace(action, "$ITEM$", "#{object}.#{field}", global: true)
+    mapped_action =
+      String.replace(action, "$ITEM$", "#{object}.#{field}", global: true)
 
     # We have to call COALESCE here because jsonb_set is, inexplicably, STRICT.
     # See

@@ -9,6 +9,7 @@ defmodule DawdleDB.Data do
   schema "data" do
     field :pid, :string
     field :text, :string
+    field :map, :map
 
     embeds_one(:single_embed, DawdleDB.EmbedData)
     embeds_many(:multi_embed, DawdleDB.EmbedData)

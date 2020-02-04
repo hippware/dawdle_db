@@ -14,7 +14,14 @@ defmodule DawdleDB.Watcher.Supervisor do
       :dawdle_db
       |> Confex.get_env(:db, [])
       |> Keyword.merge(config)
-      |> Keyword.take([:hostname, :database, :username, :password, :port, :pool_size])
+      |> Keyword.take([
+        :hostname,
+        :database,
+        :username,
+        :password,
+        :port,
+        :pool_size
+      ])
       |> Keyword.put(:auto_reconnect, true)
 
     # List all child processes to be supervised

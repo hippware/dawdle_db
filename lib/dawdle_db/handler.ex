@@ -107,16 +107,39 @@ defmodule DawdleDB.Handler do
   def _rehydrate(_type, nil), do: nil
 
   def _rehydrate(type, data) do
+    data = fix_maps(data, type)
+
     type.__struct__
-    |> Changeset.cast(data, type.__schema__(:fields) -- type.__schema__(:embeds))
-    |> _rehydrate_embeds()
+    |> Changeset.cast(
+      data,
+      type.__schema__(:fields) -- type.__schema__(:embeds)
+    )
+    |> rehydrate_embeds()
     |> Changeset.apply_changes()
   end
 
-  @spec _rehydrate_embeds(Changeset.t()) :: Changeset.t()
-  def _rehydrate_embeds(changeset) do
+  @spec rehydrate_embeds(Changeset.t()) :: Changeset.t()
+  defp rehydrate_embeds(changeset) do
     changeset.data.__struct__.__schema__(:embeds)
     |> Enum.reduce(changeset, &Changeset.cast_embed(&2, &1))
+  end
+
+  # Ecto recommends maps always use string keys rather than atoms, however on
+  # load we end up converting these back to atoms. Assume that people followed
+  # the advice, and re-stringify the keys on embedded maps.
+  defp fix_maps(data, type) do
+    map_keys =
+      Enum.filter(Map.keys(data), fn k -> type.__schema__(:type, k) == :map end)
+
+    Enum.reduce(map_keys, data, fn k, d ->
+      new_map =
+        d
+        |> Map.fetch!(k)
+        |> Enum.map(fn {k, v} -> {to_string(k), v} end)
+        |> Enum.into(%{})
+
+      Map.put(d, k, new_map)
+    end)
   end
 
   @doc false
