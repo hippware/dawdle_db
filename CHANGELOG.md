@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.3] 2020-02-04
+### Added
+- Add support for correctly rehydrating embedded maps
+
 ## [0.7.2] 2020-01-20
 ### Fixed
 - Fix the postgrex automatic reconnection
